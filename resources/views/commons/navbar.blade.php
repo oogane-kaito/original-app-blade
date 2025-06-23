@@ -1,72 +1,78 @@
-<header class="container sticky top-0 bg-transparent backdrop-blur-sm border-b border-gray-300 z-10 ">
-    <nav class="navbar text-neutral-content sticky top-0 z-10 backdrop-blur-sm border-b border-gray-300">
-        <div class="flex-1 flex items-center">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center">
-                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M5 3l14 9-14 9V3z" />
+{{-- より簡潔なバージョン --}}
+<header class="containe px-4 py-4 sticky top-0 bg-transparent backdrop-blur-sm border-b border-gray-300 z-50 w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <!-- ロゴ -->
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M5.5 3A1.5 1.5 0 004 4.5v11A1.5 1.5 0 005.5 17h9a1.5 1.5 0 001.5-1.5v-11A1.5 1.5 0 0014.5 3h-9zM8 7a1 1 0 000 2h4a1 1 0 100-2H8zm0 4a1 1 0 100 2h4a1 1 0 100-2H8z"/>
                     </svg>
                 </div>
-                <span class="text-lg lg:text-xl font-bold text-gray-600">デジタル名刺アプリ</span>
+                <h1 class="text-xl font-bold text-gray-900">デジタル名刺アプリ</h1>
             </div>
-        </div>
 
-        <div class="">
-            <ul class="menu hidden md:flex items-center gap-4 justify-between">
-                @if (Auth::check())
-                    {{-- ユーザー詳細ページへのリンク --}}
-                    <li><a class="link link-hover" href="{{ route('users.show', Auth::user()->id) }}">{{ Auth::user()->name }}&#39;s profile</a></li>
-    
-                    {{-- ログアウトへのリンク --}}
-                    <li>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <a class="link link-hover" href="#" onclick="event.preventDefault();this.closest('form').submit();">Logout</a>
-                        </form>
-                    </li>
+            <!-- デスクトップナビ -->
+            <nav class="hidden md:flex items-center space-x-8">
+                @auth
+                    <a href="{{ route('users.show', Auth::user()->id) }}" 
+                       class="text-gray-600 hover:text-gray-900 font-medium">
+                        {{ Auth::user()->name }}
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                        @csrf
+                        <button type="submit" class="text-gray-600 hover:text-red-600 font-medium">
+                            ログアウト
+                        </button>
+                    </form>
                 @else
-                    {{-- ユーザー登録ページへのリンク --}}
-                    <li><a class="link link-hover" href="{{ route('register') }}">Signup</a></li>
-                    {{-- ログインページへのリンク --}}
-                    <li><a class="link link-hover" href="{{ route('login') }}">Login</a></li>
-                @endif
-            </ul>
+                    <a href="{{ route('register') }}" class="text-gray-600 hover:text-gray-900 font-medium">
+                        新規登録
+                    </a>
+                    <a href="{{ route('login') }}" 
+                       class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-medium">
+                        ログイン
+                    </a>
+                @endauth
+            </nav>
 
-            {{-- モバイルナビゲーション用のドロップダウン --}}
-            <div class="md:hidden">
-                <div class="dropdown dropdown-end">
-                    <button class="btn btn-ghost normal-case" onclick="toggleMobileMenu()">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 6a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 6a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                    <div id="mobile-menu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg z-20">
-                        <ul class="py-2">
-                            @if (Auth::check())
-                             
-                                <li><a class="block px-4 py-2 text-gray-800 hover:bg-gray-200" href="{{ route('users.show', Auth::user()->id) }}">{{ Auth::user()->name }}&#39;s profile</a></li>
-                               
-                                <li>
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200" href="#" onclick="event.preventDefault();this.closest('form').submit();">Logout</a>
-                                    </form>
-                                </li>
-                            @else
-                                <li><a class="block px-4 py-2 text-gray-800 hover:bg-gray-200" href="{{ route('register') }}">Signup</a></li>
-                                <li><a class="block px-4 py-2 text-gray-800 hover:bg-gray-200" href="{{ route('login') }}">Login</a></li>
-                            @endif
-                        </ul>
-                    </div>
-                </div>
+            <!-- モバイルメニューボタン -->
+            <button 
+                class="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
+            >
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- モバイルメニュー -->
+        <div id="mobile-menu" class="hidden md:hidden pb-4">
+            <div class="space-y-1">
+                @auth
+                    <a href="{{ route('users.show', Auth::user()->id) }}" 
+                       class="block px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md">
+                        {{ Auth::user()->name }}
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" 
+                                class="w-full text-left px-3 py-2 text-gray-600 hover:text-red-600 hover:bg-gray-50 rounded-md">
+                            ログアウト
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('register') }}" 
+                       class="block px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md">
+                        新規登録
+                    </a>
+                    <a href="{{ route('login') }}" 
+                       class="block px-3 py-2 bg-green-600 text-white hover:bg-green-700 rounded-md text-center">
+                        ログイン
+                    </a>
+                @endauth
             </div>
         </div>
-    </nav>
+    </div>
 </header>
-
-<script>
-    function toggleMobileMenu() {
-        const menu = document.getElementById('mobile-menu');
-        menu.classList.toggle('hidden');
-    }
-</script>

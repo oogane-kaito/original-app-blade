@@ -14,6 +14,7 @@ $variants = [
     'secondary' => 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
     'ghost' => 'hover:bg-accent hover:text-accent-foreground',
     'link' => 'text-primary underline-offset-4 hover:underline',
+    "origin" => 'bg-orange-300 hover:text-gray-600 text-white rounded-full'
 ];
 
 $sizes = [

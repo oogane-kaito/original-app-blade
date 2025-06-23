@@ -1,14 +1,15 @@
 @props([
     'name' => '',
     'disabled' => false,
-    'placeholder' => 'Select an option...'
+    'placeholder' => 'Select an option...',
+    'class' => '', // 追加
 ])
 
 <div class="relative">
     <select 
         name="{{ $name }}"
         @if($disabled) disabled @endif
-        {{ $attributes->merge(['class' => 'flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none']) }}
+        {{ $attributes->merge(['class' => 'flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none ' . $class]) }} 
     >
         @if($placeholder)
             <option value="" disabled selected>{{ $placeholder }}</option>

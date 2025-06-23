@@ -37,15 +37,6 @@
                         無料で利用する
                     </x-ui.button>
                 </a>
-                <a href="{{ route('register') }}">
-                    <x-ui.button
-                        size="lg"
-                        variant="outline"
-                        class="w-full sm:w-auto border-orange-200 text-orange-600 hover:bg-orange-50 rounded-full px-6 sm:px-8 py-3 text-base sm:text-lg border-2 flex items-center justify-center button-hover"
-                    >
-                        試す
-                    </x-ui.button>
-                </a>
             </div>
         </div>
     </div>

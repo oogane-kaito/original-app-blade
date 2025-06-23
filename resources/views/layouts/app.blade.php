@@ -9,13 +9,13 @@
         @vite('resources/js/app.js')
     </head>
 
-    <body>
+    <body class="bg-gradient-to-br from-orange-50 via-green-50 to-white">
 
         
-
+        @include('commons.navbar')
         <div class="container mx-auto min-h-screen bg-gradient-to-br from-orange-50 via-green-50 to-white">
             {{-- ナビゲーションバー --}}
-            @include('commons.navbar')
+            
             {{-- エラーメッセージ --}}
             @include('commons.error_messages')
 
