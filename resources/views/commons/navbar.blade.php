@@ -15,9 +15,13 @@
             <!-- デスクトップナビ -->
             <nav class="hidden md:flex items-center space-x-8">
                 @auth
-                    <a href="{{ route('users.show', Auth::user()->id) }}" 
+                    <a href="{{ route('editor.index') }}" 
+                       class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 font-medium hover:text-gray-90">
+                        名刺編集画面
+                    </a>
+                    <a href="{{ route('profile.edit') }}" 
                        class="text-gray-600 hover:text-gray-900 font-medium">
-                        {{ Auth::user()->name }}
+                        ユーザー設定
                     </a>
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
@@ -26,11 +30,11 @@
                         </button>
                     </form>
                 @else
-                    <a href="{{ route('register') }}" class="text-gray-600 hover:text-gray-900 font-medium">
+                    <a href="{{ route('register') }}" class="text-white  px-4 py-2 hover:text-gray-900 font-medium bg-orange-300 rounded-md hover:bg-orange-700">
                         新規登録
                     </a>
                     <a href="{{ route('login') }}" 
-                       class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-medium">
+                       class="bg-green-300 text-white px-4 py-2 rounded-md hover:bg-green-700 font-medium hover:text-gray-900" >
                         ログイン
                     </a>
                 @endauth
@@ -51,9 +55,13 @@
         <div id="mobile-menu" class="hidden md:hidden pb-4">
             <div class="space-y-1">
                 @auth
-                    <a href="{{ route('users.show', Auth::user()->id) }}" 
+                    <a href="{{ route('editor.index') }}" 
+                       class="bg-green-300 text-white px-4 py-2 rounded-md hover:bg-green-700 font-medium hover:text-gray-90">
+                        名刺編集画面
+                    </a>
+                    <a href="{{ route('profile.edit') }}" 
                        class="block px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md">
-                        {{ Auth::user()->name }}
+                        ユーザー設定
                     </a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
@@ -64,11 +72,11 @@
                     </form>
                 @else
                     <a href="{{ route('register') }}" 
-                       class="block px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md">
+                       class="block px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md bg-orange-300">
                         新規登録
                     </a>
                     <a href="{{ route('login') }}" 
-                       class="block px-3 py-2 bg-green-600 text-white hover:bg-green-700 rounded-md text-center">
+                       class="block px-3 py-2 bg-green-300 text-white hover:bg-green-700 rounded-md text-center">
                         ログイン
                     </a>
                 @endauth

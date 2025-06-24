@@ -36,4 +36,23 @@ class EditorController extends Controller
 
         return view('editor.index', compact('businessCard'));
  }
+
+ public function show($id)
+    {
+        $businessCard = BusinessCard::findOrFail($id);
+        // dd($businessCard->visibility);
+        // dd(Auth::check());
+        // Check if the card is public or belongs to the authenticated user
+        if (!$businessCard->visibility ) {
+
+            
+            abort(404, 'この名刺は公開されていません。');
+            
+        }else{
+            return view('cards.show', compact('businessCard'));
+        }
+
+        
+    }
+
 }

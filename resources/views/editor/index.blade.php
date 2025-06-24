@@ -44,14 +44,14 @@ $cardData['visibility'] = (bool) $cardData['visibility'];
             <div class="container mx-auto px-4 py-4">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-4">
-                        <a href="{{ route('dashboard') }}">
+                        <!-- <a href="{{ route('dashboard') }}">
                             <x-ui.button variant="ghost" size="sm">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                                 </svg>
                                 戻る
                             </x-ui.button>
-                        </a>
+                        </a> -->
                         <div class="flex items-center gap-2">
                             <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -63,36 +63,28 @@ $cardData['visibility'] = (bool) $cardData['visibility'];
                         <x-ui.button type="submit" form="business-card-form" size="lg" variant="origin">
                             保存
                         </x-ui.button>
+                        @if($cardData['visibility'] && $cardData['id'] !== null)
+                            <a 
+                                href="{{ route('cards.show', ['id' => $cardData['id']]) }}" 
+                                class="inline-block px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+                                プレビュー
+                            </a>
+                        @else
+                            <span>
+                                <a 
+                                    class="inline-block px-4 py-2 bg-gray-300 text-gray-500 rounded-md cursor-not-allowed" 
+                                    disabled>
+                                    プレビュー
+                                </a>
+                            </span>
+                        @endif
                     </div>
                 </div>
             </div>
         </header>
 
-        <!-- デバッグ情報 -->
-        @if(config('app.debug'))
-            <div class="container mx-auto px-4 py-2">
-                <details class="bg-gray-100 p-4 rounded">
-                    <summary class="cursor-pointer font-bold">デバッグ情報</summary>
-                    <div class="mt-2 space-y-2">
-                        <p><strong>Errors:</strong> {{ $errors->count() }}</p>
-                        <p><strong>Session Error:</strong> {{ session('error') }}</p>
-                        <p><strong>Session Success:</strong> {{ session('success') }}</p>
-                        <p><strong>Visibility Value:</strong> {{ json_encode($cardData['visibility']) }} ({{ gettype($cardData['visibility']) }})</p>
-                        <p><strong>Old Input:</strong> {{ json_encode(old()) }}</p>
-                        @if($errors->any())
-                            <div class="bg-red-100 p-2 rounded">
-                                <strong>All Errors:</strong>
-                                <ul>
-                                    @foreach($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                    </div>
-                </details>
-            </div>
-        @endif
+
+   
 
         <!-- メインフォーム -->
         <form 

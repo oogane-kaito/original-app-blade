@@ -22,7 +22,7 @@ $cardData = is_array($data) ? $data : [];
 $links = isset($cardData['links']) && is_array($cardData['links']) ? $cardData['links'] : [];
 @endphp
 
-<div class="w-full max-w-sm mx-auto">
+<div class="w-full max-w-sm mx-auto shadow-2xl rounded-3xl">
     <x-ui.card 
         class="border-0 shadow-2xl overflow-hidden relative rounded-3xl"
         style="background-color: {{ $cardData['backgroundColor'] ?? '#f0fdf4' }}"
