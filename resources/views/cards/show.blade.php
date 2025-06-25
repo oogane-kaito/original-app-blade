@@ -24,6 +24,7 @@
 
     // visibilityの確実なboolean変換
     $cardData['visibility'] = (bool) $cardData['visibility'];
+
 @endphp
 
 <DOCTYPE html>
@@ -31,6 +32,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $cardData['name'] }} - デジタル名刺</title>
 
     <!-- Scripts -->
@@ -174,6 +176,14 @@
                 </x-ui.card-content>
                 
                 <div class="mt-8 text-center">
+                    @if(Auth::id() != $cardData->user_id && Auth::id())
+                        <form action="{{ route('trades.request') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="card_id" value="{{ $cardData->id }}">
+                            <input type="hidden" name="receiver_id" value="{{ $cardData->user_id }}">
+                            <button type="submit" class="btn btn-primary">このカードを交換申請</button>
+                        </form>
+                    @endif
                     <p class="text-sm text-gray-600">
                         Powered by NatureLink
                     </p>
