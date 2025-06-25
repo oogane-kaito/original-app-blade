@@ -13,6 +13,8 @@ use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\EditorController;
 use App\Http\Controllers\BusinessCardController;
 
+//追加機能(カードトレード機能)
+use App\Http\Controllers\BusinessCardTradeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,6 +61,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // Route::resource('microposts', MicropostsController::class, ['only' => ['store', 'destroy']]);
     Route::resource('business-cards', BusinessCardController::class);
+    
+    // 申請フォーム（カード一覧等から申請できる）
+    Route::post('/trades/request', [BusinessCardTradeController::class, 'tradeRequest'])->name('trades.request');
+
+    // 申請一覧（自分が送った・受け取った申請を見る）
+    Route::get('/trades', [BusinessCardTradeController::class, 'index'])->name('trades.index');
+
+    // 承認・拒否（相手が申請を承認/拒否する）
+    Route::post('/trades/{trade}/accept', [BusinessCardTradeController::class, 'accept'])->name('trades.accept');
+    Route::post('/trades/{trade}/reject', [BusinessCardTradeController::class, 'reject'])->name('trades.reject');
+
+
 
 });
 
