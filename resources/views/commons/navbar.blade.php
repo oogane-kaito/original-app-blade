@@ -19,6 +19,10 @@
                        class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 font-medium hover:text-gray-90">
                         名刺編集画面
                     </a>
+                    <a href="{{ route('trades.index') }}" 
+                       class="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-green-700 font-medium hover:text-gray-90">
+                        名刺交換管理画面
+                    </a>
                     <a href="{{ route('profile.edit') }}" 
                        class="text-gray-600 hover:text-gray-900 font-medium">
                         ユーザー設定
@@ -58,6 +62,10 @@
                     <a href="{{ route('editor.index') }}" 
                        class="bg-green-300 text-white px-4 py-2 rounded-md hover:bg-green-700 font-medium hover:text-gray-90">
                         名刺編集画面
+                    </a>
+                    <a href="{{ route('trades.index') }}" 
+                       class="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-green-700 font-medium hover:text-gray-90">
+                        名刺交換管理画面
                     </a>
                     <a href="{{ route('profile.edit') }}" 
                        class="block px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md">

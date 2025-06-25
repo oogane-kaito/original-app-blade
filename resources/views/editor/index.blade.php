@@ -70,13 +70,13 @@ $cardData['visibility'] = (bool) $cardData['visibility'];
                                 プレビュー
                             </a>
                         @else
-                            <span>
+                            
                                 <a 
                                     class="inline-block px-4 py-2 bg-gray-300 text-gray-500 rounded-md cursor-not-allowed" 
                                     disabled>
                                     プレビュー
                                 </a>
-                            </span>
+                            
                         @endif
                     </div>
                 </div>
@@ -184,19 +184,41 @@ $cardData['visibility'] = (bool) $cardData['visibility'];
                                     </svg>
                                     <span class="text-sm font-medium text-blue-800">公開設定</span>
                                 </div>
+                                
                                 <div class="flex items-center">
                                     <span class="text-sm text-blue-700 mr-3" x-text="cardData.visibility ? '公開中' : '非公開'"></span>
                                     <button 
-                                        type="button"
-                                        @click="cardData.visibility = !cardData.visibility"
-                                        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                                        :class="cardData.visibility ? 'bg-blue-600' : 'bg-gray-200'"
+                                        class="relative inline-flex h-6 w-12 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                                        :class="cardData.visibility ? 'bg-blue-600' : 'bg-gray-300'"
+                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deploy')"
+                                        aria-label="Visibility toggle"
                                     >
                                         <span 
                                             class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
-                                            :class="cardData.visibility ? 'translate-x-6' : 'translate-x-1'"
+                                            :class="cardData.visibility ? 'translate-x-7' : 'translate-x-1'"
                                         ></span>
                                     </button>
+                                    <x-modal name="confirm-user-deploy" :show="$errors->userDeletion->isNotEmpty()" focusable>
+                                        <div class="p-6">
+                                            <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                                                <span x-text="cardData.visibility ? '公開設定を解除しますか？' : '公開に設定しますか？'"></span>
+                                            </h3>
+                                            <p class="text-sm text-gray-600 mb-6">
+                                                <span x-text="cardData.visibility ? 'このカードは非公開になります。' : 'このカードは公開されます。'"></span>
+                                            </p>
+                                            <div class="mt-6 flex justify-end">
+                                                <x-secondary-button x-on:click="$dispatch('close')">
+                                                    {{ __('キャンセル') }}
+                                                </x-secondary-button>
+                                                <x-danger-button 
+                                                    type="button"
+                                                    x-on:click="cardData.visibility = !cardData.visibility; $dispatch('close')"
+                                                    class="ms-3">
+                                                    <span x-text="cardData.visibility ? '非公開にする' : '公開する'"></span>
+                                                </x-danger-button>
+                                            </div>
+                                        </div>
+                                    </x-modal>
                                 </div>
                             </div>
                         </div>

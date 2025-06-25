@@ -24,7 +24,6 @@
 
     // visibilityの確実なboolean変換
     $cardData['visibility'] = (bool) $cardData['visibility'];
-
 @endphp
 
 <DOCTYPE html>
@@ -42,6 +41,48 @@
     <div class="min-h-screen bg-gradient-to-br from-orange-50 via-green-50 to-white">
         <div class="container mx-auto px-4 py-8">
             <div class="max-w-2xl mx-auto">
+                   <!-- エラー表示 -->
+                        @if($errors->any())
+                            <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="text-sm font-medium text-red-800">
+                                            エラーが発生しました ({{ $errors->count() }}件)
+                                        </h3>
+                                        <div class="mt-2 text-sm text-red-700">
+                                            <ul class="list-disc list-inside space-y-1">
+                                                @foreach($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if(session('error'))
+                            <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="text-sm font-medium text-red-800">エラー</h3>
+                                        <div class="mt-2 text-sm text-red-700">
+                                            {{ session('error') }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif 
                  
                 <x-ui.card-header>
                     <x-ui.card-title class="flex items-center gap-2 text-center justify-center">
@@ -52,6 +93,7 @@
                         {{ $cardData['name'] }}の名刺
                     </x-ui.card-title>
                 </x-ui.card-header>
+                
                 <x-ui.card-content>
                     <div id="preview-container">
                         <!-- プレビューコンテンツ -->
@@ -86,7 +128,7 @@
                                                 class="flex h-full w-full items-center justify-center rounded-full text-2xl font-bold text-white"
                                                 style="background-color: {{ $cardData['accentColor'] }}"
                                             >
-                                                {{ $cardData['name'] ? strtoupper(substr($cardData['name'], 0, 1)) : 'U' }}
+                                                {{ $cardData['name'] ? mb_strtoupper(mb_substr($cardData['name'], 0, 1)) : 'U' }}
                                             </div>
                                         </div>
                                     </div>
@@ -152,7 +194,7 @@
                                                             <svg class="w-5 h-5" style="color: {{ $cardData['accentColor'] }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path @if($item['icon'] === 'mail') stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" @else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" @endif />
                                                             </svg>
-                                                            <span class="font-medium">{{ $item['title'] ?: $item['icon'] }}</span>
+                                                           <a href="{{$item['url'] }}"> <span class="font-medium">{{ $item['title'] ?: $item['icon'] }}</span></a>
                                                         </div>
                                                     </div>
                                                 
@@ -176,16 +218,17 @@
                 </x-ui.card-content>
                 
                 <div class="mt-8 text-center">
-                    @if(Auth::id() != $cardData->user_id && Auth::id())
+                    @if(Auth::id() != $cardData['user_id'] && Auth::check())
                         <form action="{{ route('trades.request') }}" method="POST">
                             @csrf
-                            <input type="hidden" name="card_id" value="{{ $cardData->id }}">
-                            <input type="hidden" name="receiver_id" value="{{ $cardData->user_id }}">
+                            <input type="hidden" name="card_id" value="{{ $cardData['id'] }}">
+                            <input type="hidden" name="receiver_id" value="{{ $cardData['user_id'] }}">
                             <button type="submit" class="btn btn-primary">このカードを交換申請</button>
                         </form>
                     @endif
                     <p class="text-sm text-gray-600">
                         Powered by NatureLink
+
                     </p>
                 </div>
             </div>

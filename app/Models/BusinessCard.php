@@ -84,4 +84,11 @@ class BusinessCard extends Model
     {
         return route('cards.show', $this->id);
     }
+    /**
+     * trade
+     */
+    public function trades()
+    {
+        return $this->hasMany(BusinessCardTrade::class,'card_id');
+    }
 }
